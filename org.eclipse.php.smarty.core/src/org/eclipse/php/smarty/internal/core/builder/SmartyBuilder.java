@@ -17,9 +17,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.php.core.project.build.IPHPBuilderExtension;
 import org.eclipse.php.internal.core.phpModel.phpElementData.PHPMarker;
 import org.eclipse.php.internal.core.project.options.PHPProjectOptions;
-import org.phpaspect.apdt.internal.core.APDTCorePlugin;
-import org.phpaspect.apdt.internal.core.parser.PHPAspectLexer;
-import org.phpaspect.apdt.internal.core.parser.PHPAspectParser;
+import org.eclipse.php.smarty.core.SmartyCorePlugin;
 
 public class SmartyBuilder implements IPHPBuilderExtension {
 
@@ -45,12 +43,11 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 		// TODO Auto-generated method stub
 		
 	}
-	
 
 	private boolean isPHPAspectFile(IFile file) {
 		final int numSegments = file.getFullPath().segmentCount();
 		final String filename = file.getFullPath().segment(numSegments - 1);
-		final IContentType contentType = ContentTypeManager.getContentType(SmartyCorePlugin.PLUGIN_ID + ".phpaspectsource");
+		final IContentType contentType = ContentTypeManager.getContentType(SmartyCorePlugin.PLUGIN_ID + ".template");
 		if (contentType.isAssociatedWith(filename)) {
 			return true;
 		}
