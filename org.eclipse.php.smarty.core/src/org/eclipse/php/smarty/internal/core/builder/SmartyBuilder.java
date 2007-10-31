@@ -47,7 +47,7 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 		
 	}
 
-	private boolean isPHPAspectFile(IFile file) {
+	private boolean isSmartyFile(IFile file) {
 		final int numSegments = file.getFullPath().segmentCount();
 		final String filename = file.getFullPath().segment(numSegments - 1);
 		final IContentType contentType = CONTENT_TYPE_MANAGER.getContentType(CONTENTTYPE_ID);
