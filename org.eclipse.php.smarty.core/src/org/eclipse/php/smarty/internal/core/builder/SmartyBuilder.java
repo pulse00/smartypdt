@@ -3,7 +3,6 @@ package org.eclipse.php.smarty.internal.core.builder;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.internal.content.ContentTypeManager;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -12,7 +11,9 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
+import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.php.core.project.build.IPHPBuilderExtension;
 import org.eclipse.php.internal.core.phpModel.phpElementData.PHPMarker;
@@ -21,8 +22,10 @@ import org.eclipse.php.smarty.core.SmartyCorePlugin;
 
 public class SmartyBuilder implements IPHPBuilderExtension {
 
-	public static final String BUILDER_ID = "org.eclipse.php.smarty.core.builder";
-
+	public static final String BUILDER_ID = SmartyCorePlugin.PLUGIN_ID + ".builder";
+	public static final String CONTENTTYPE_ID = SmartyCorePlugin.PLUGIN_ID + ".template";
+	private static final IContentTypeManager CONTENT_TYPE_MANAGER = Platform.getContentTypeManager();
+	
 	public boolean isEnabled() {
 		return true;
 	}
@@ -47,7 +50,7 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 	private boolean isPHPAspectFile(IFile file) {
 		final int numSegments = file.getFullPath().segmentCount();
 		final String filename = file.getFullPath().segment(numSegments - 1);
-		final IContentType contentType = ContentTypeManager.getContentType(SmartyCorePlugin.PLUGIN_ID + ".template");
+		final IContentType contentType = CONTENT_TYPE_MANAGER.getContentType(CONTENTTYPE_ID);
 		if (contentType.isAssociatedWith(filename)) {
 			return true;
 		}
