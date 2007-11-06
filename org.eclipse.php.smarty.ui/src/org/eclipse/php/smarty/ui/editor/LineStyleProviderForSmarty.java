@@ -12,8 +12,12 @@ package org.eclipse.php.smarty.ui.editor;
 
 import java.util.Collection;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.ITypedRegion;
+import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
+import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
+import org.eclipse.wst.sse.ui.internal.provisional.style.AbstractLineStyleProvider;
 import org.eclipse.wst.sse.ui.internal.provisional.style.Highlighter;
 import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 
@@ -21,21 +25,23 @@ import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
  * Colors the Smarty tokens 
  * @author Roy, 2007
  */
-public class LineStyleProviderForSmarty implements LineStyleProvider {
+public class LineStyleProviderForSmarty extends AbstractLineStyleProvider implements LineStyleProvider {
 
-	public void init(IStructuredDocument document, Highlighter highlighter) {
+	@Override
+	protected TextAttribute getAttributeFor(ITextRegion region) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
-	public boolean prepareRegions(ITypedRegion currentRegion, int start, int length, Collection styleRanges) {
+	@Override
+	protected IPreferenceStore getColorPreferences() {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
-	public void release() {
+	@Override
+	protected void loadColors() {
 		// TODO Auto-generated method stub
-
+		
 	}
-
 }
