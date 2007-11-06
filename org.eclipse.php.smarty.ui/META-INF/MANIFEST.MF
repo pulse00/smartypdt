@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ui Plug-in
+Bundle-SymbolicName: org.eclipse.php.smarty.ui;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.php.smarty.ui.SmartyUiPlugin
+Require-Bundle: org.eclipse.php.core,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.php,
+ org.eclipse.php.ui,
+ org.eclipse.wst.sse.core,
+ org.eclipse.wst.xml.core,
+ org.eclipse.core.resources,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.wst.html.core,
+ org.eclipse.wst.html.ui,
+ org.eclipse.wst.sse.ui,
+ org.eclipse.core.filesystem,
+ org.eclipse.ui.ide,
+ org.eclipse.php.smarty.core
+Eclipse-LazyStart: true
+Export-Package: 
+ org.eclipse.php.smarty.ui.editor

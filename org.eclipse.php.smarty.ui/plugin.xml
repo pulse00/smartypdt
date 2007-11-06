@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+	<!--Smarty Editor:-->
+	<extension point="org.eclipse.ui.editors">
+		<editor
+        class="org.eclipse.php.smarty.ui.editor.SmartyStructuredEditor"
+        contributorClass="org.eclipse.php.internal.ui.editor.PHPEditorActionBarContributor"
+        default="true"
+        icon="icons/full/obj16/smartyfile.gif"
+        id="org.eclipse.smarty.editor"
+        name="Smarty Editor"
+        symbolicFontName="org.eclipse.wst.sse.ui.textfont">
+			<contentTypeBinding contentTypeId="org.eclipse.php.smartysource" />
+		</editor>
+	</extension>
+   
+	<extension point="org.eclipse.wst.sse.ui.editorConfiguration">
+		<sourceViewerConfiguration
+			class="org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration"
+			target="org.eclipse.php.smartysource" />
+		<contentOutlineConfiguration
+			class="org.eclipse.php.internal.ui.outline.PHPContentOutlineConfiguration"
+			target="org.eclipse.php.smartysource" />
+		<propertySheetConfiguration
+			class="org.eclipse.wst.xml.ui.views.properties.XMLPropertySheetConfiguration"
+			target="org.eclipse.php.smartysource" />
+		<provisionalConfiguration
+			type="sourceeditingtexttools"
+			class="org.eclipse.wst.xml.ui.internal.provisional.XMLSourceEditingTextTools"
+			target="org.eclipse.php.smartysource" />
+		<provisionalConfiguration
+			type="characterpairmatcher"
+			class="org.eclipse.php.internal.ui.text.PHPDocumentRegionEdgeMatcher"
+			target="org.eclipse.php.smartysource" />
+		<provisionalConfiguration
+			type="structuredtextfoldingprovider"
+			class="org.eclipse.php.internal.ui.folding.PHPFoldingStructureProviderProxy"
+			target="org.eclipse.php.smartysource" />
+		<provisionalDefinition
+			type="spellingregions"
+			value="XML_COMMENT_TEXT, PHP_CONTENT, XML_CONTENT"
+			target="org.eclipse.php.smartysource" />
+	</extension>
+   
+   
+   
+
+
+</plugin>
