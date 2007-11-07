@@ -88,14 +88,14 @@ public class SmartyStructuredTextViewerConfiguration extends PHPStructuredTextVi
 	 */
 	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		final String[] result = super.getConfiguredContentTypes(sourceViewer);
-		final List<String> superList = Arrays.asList(result);
-		
+		final String[] original = super.getConfiguredContentTypes(sourceViewer);
 		final String[] configuredPartitions = SmartyPartitionTypes.configuredPartitions;
-		final List<String> smartyList = Arrays.asList(configuredPartitions);
 		
-		superList.addAll(smartyList);
-		return (String[]) superList.toArray();
+		String[] result = new String[original.length + configuredPartitions.length];
+		System.arraycopy(original, 0, result, 0, original.length);
+		System.arraycopy(configuredPartitions, 0, result, original.length, configuredPartitions.length);
+		
+		return result;
 	}
 
 	public LineStyleProvider getLineStyleProvider() {

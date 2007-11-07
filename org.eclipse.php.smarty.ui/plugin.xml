@@ -18,7 +18,7 @@
    
 	<extension point="org.eclipse.wst.sse.ui.editorConfiguration">
 		<sourceViewerConfiguration
-			class="org.eclipse.php.internal.ui.editor.configuration.PHPStructuredTextViewerConfiguration"
+			class="org.eclipse.php.smarty.ui.editor.configuration.SmartyStructuredTextViewerConfiguration"
 			target="org.eclipse.php.smarty.core.template" />
 		<contentOutlineConfiguration
 			class="org.eclipse.php.internal.ui.outline.PHPContentOutlineConfiguration"

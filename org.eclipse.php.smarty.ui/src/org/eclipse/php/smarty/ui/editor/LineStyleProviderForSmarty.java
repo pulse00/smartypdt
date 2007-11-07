@@ -10,38 +10,44 @@
  *******************************************************************************/
 package org.eclipse.php.smarty.ui.editor;
 
-import java.util.Collection;
-
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TextAttribute;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
+import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
+import org.eclipse.php.internal.ui.editor.highlighter.LineStyleProviderForPhp;
+import org.eclipse.php.smarty.internal.core.documentModel.parser.SmartyRegionContext;
+import org.eclipse.php.smarty.ui.preferences.PreferenceConstants;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.eclipse.wst.sse.ui.internal.provisional.style.AbstractLineStyleProvider;
-import org.eclipse.wst.sse.ui.internal.provisional.style.Highlighter;
-import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 
 /**
  * Colors the Smarty tokens 
  * @author Roy, 2007
  */
-public class LineStyleProviderForSmarty extends AbstractLineStyleProvider implements LineStyleProvider {
+public class LineStyleProviderForSmarty extends LineStyleProviderForPhp {
 
-	@Override
+	static {
+		fColorTypes.put(SmartyRegionContext.SMARTY_OPEN, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_CLOSE, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_CONTENT, PreferenceConstants.EDITOR_LABEL_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_COMMENT, PreferenceConstants.EDITOR_COMMENT_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_VARIABLE, PreferenceConstants.EDITOR_VARIABLE_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_DELIMITER, PreferenceConstants.EDITOR_LABEL_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_WHITESPACE, PreferenceConstants.EDITOR_LABEL_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_NUMBER, PreferenceConstants.EDITOR_NUMBER_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_LABEL, PreferenceConstants.EDITOR_LABEL_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_CONSTANT_ENCAPSED_STRING, PreferenceConstants.EDITOR_STRING_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_DOUBLE_QUOTES_CONTENT, PreferenceConstants.EDITOR_STRING_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_DOUBLE_QUOTES_START, PreferenceConstants.EDITOR_STRING_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_DOUBLE_QUOTES_END, PreferenceConstants.EDITOR_STRING_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_BACKTICK_END, PreferenceConstants.EDITOR_LABEL_COLOR);
+		fColorTypes.put(SmartyRegionContext.SMARTY_BACKTICK_START, PreferenceConstants.EDITOR_LABEL_COLOR);
+	}
+
 	protected TextAttribute getAttributeFor(ITextRegion region) {
-		// TODO Auto-generated method stub
-		return null;
+		final String type = region.getType();
+		if (type != null && type.startsWith("SMARTY_")) {
+			return getAttributeFor(type);
+		}
+
+		return super.getAttributeFor(region);
 	}
 
-	@Override
-	protected IPreferenceStore getColorPreferences() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void loadColors() {
-		// TODO Auto-generated method stub
-		
-	}
 }
