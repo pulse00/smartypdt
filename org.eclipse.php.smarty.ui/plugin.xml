@@ -8,7 +8,7 @@
         class="org.eclipse.php.smarty.ui.editor.SmartyStructuredEditor"
         contributorClass="org.eclipse.php.internal.ui.editor.PHPEditorActionBarContributor"
         default="true"
-        icon="icons/full/obj16/smartyfile.gif"
+        icon="ico/full/obj16/smartyfile.gif"
         id="org.eclipse.smarty.editor"
         name="Smarty Editor"
         symbolicFontName="org.eclipse.wst.sse.ui.textfont">
