@@ -1704,11 +1704,11 @@ NUMBER=([0-9])+
 	assert text != null;
 
 	// checks the smarty case
-	final char startChar = text.charAt(0);
-	if (startChar == '{') {
+	final int startChar = text.indexOf('{');
+	if (startChar != -1) {
 		yybegin(ST_SMARTY_CONTENT);
 		// pushback to just after the opening bracket
-		yypushback(yylength() - 1);
+		yypushback(yylength() - startChar - 1);
 		return SMARTY_OPEN;
 	}
 
