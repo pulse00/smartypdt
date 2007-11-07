@@ -107,7 +107,7 @@ public class SmartyStructuredTextViewerConfiguration extends PHPStructuredTextVi
 
 	@Override
 	public LineStyleProvider[] getLineStyleProviders(ISourceViewer sourceViewer, String partitionType) {
-		if (partitionType == SmartyPartitionTypes.SMARTY_DEFAULT) {
+		if (SmartyPartitionTypes.isSmartyPartition(partitionType)) {
 			return new LineStyleProvider[] { getLineStyleProvider() };
 		}
 		return super.getLineStyleProviders(sourceViewer, partitionType);
