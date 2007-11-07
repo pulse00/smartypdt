@@ -26,12 +26,11 @@ public abstract class SmartyPartitionTypes {
 	public static final String SMARTY_COMMENT = "org.eclipse.php.SMARTY_COMMENT"; //$NON-NLS-1$
 	public static final String SMARTY_STRING = "org.eclipse.php.SMARTY_STRING"; //$NON-NLS-1$
 	public static final String SMARTY_QUOTED_STRING = "org.eclipse.php.SMARTY_QUOTED_STRING"; //$NON-NLS-1$
-	public static final String SMARTY_BACKTICK = "org.eclipse.php.SMARTY_BACKTICK"; //$NON-NLS-1$
 
-	public final static String[] configuredPartitions = new String[] { SMARTY_DEFAULT, SMARTY_COMMENT, SMARTY_STRING, SMARTY_QUOTED_STRING, SMARTY_BACKTICK};
+	public final static String[] configuredPartitions = new String[] { SMARTY_DEFAULT, SMARTY_COMMENT, SMARTY_STRING, SMARTY_QUOTED_STRING};
 
 	public static boolean isSmartyPartition(String regionType) {
-		return regionType == SMARTY_DEFAULT || regionType == SMARTY_COMMENT || regionType == SMARTY_STRING || regionType == SMARTY_QUOTED_STRING || regionType == SMARTY_BACKTICK;
+		return regionType == SMARTY_DEFAULT || regionType == SMARTY_COMMENT || regionType == SMARTY_STRING || regionType == SMARTY_QUOTED_STRING;
 	}
 
 	/**

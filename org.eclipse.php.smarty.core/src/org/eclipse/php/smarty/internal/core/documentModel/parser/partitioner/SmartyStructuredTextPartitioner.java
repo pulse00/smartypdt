@@ -14,11 +14,12 @@ import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
+import org.eclipse.php.internal.core.documentModel.partitioner.PHPStructuredTextPartitioner;
 import org.eclipse.php.smarty.internal.core.documentModel.parser.SmartyRegionContext;
 import org.eclipse.wst.html.core.internal.text.StructuredTextPartitionerForHTML;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 
-public class SmartyStructuredTextPartitioner extends StructuredTextPartitionerForHTML {
+public class SmartyStructuredTextPartitioner extends PHPStructuredTextPartitioner {
 
 	public String getContentType(final int offset, final boolean preferOpenPartitions) {
 		final ITypedRegion partition = getPartition(offset);
@@ -26,9 +27,19 @@ public class SmartyStructuredTextPartitioner extends StructuredTextPartitionerFo
 	}
 
 	public String getPartitionType(final ITextRegion region, final int offset) {
-		// if php region
-		if (SmartyPartitionTypes.isSmartyPartition(region.getType()))
-			return SmartyPartitionTypes.SMARTY_DEFAULT;
+		// if smarty region
+		final String type = region.getType();
+		if (type.startsWith("SMARTY_")) {
+			if (type == SmartyRegionContext.SMARTY_COMMENT) {
+				return SmartyPartitionTypes.SMARTY_COMMENT;
+			} else if (type == SmartyRegionContext.SMARTY_CONSTANT_ENCAPSED_STRING) {
+				return SmartyPartitionTypes.SMARTY_STRING;
+			} else if (type == SmartyRegionContext.SMARTY_DOUBLE_QUOTES_CONTENT) {
+				return SmartyPartitionTypes.SMARTY_QUOTED_STRING;
+			} else {
+				return SmartyPartitionTypes.SMARTY_DEFAULT;
+			}
+		}
 
 		// else do super 
 		return super.getPartitionType(region, offset);
