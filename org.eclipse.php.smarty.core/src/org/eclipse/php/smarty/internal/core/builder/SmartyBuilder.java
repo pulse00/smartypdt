@@ -19,6 +19,7 @@ import org.eclipse.php.core.project.build.IPHPBuilderExtension;
 import org.eclipse.php.internal.core.phpModel.phpElementData.PHPMarker;
 import org.eclipse.php.internal.core.project.options.PHPProjectOptions;
 import org.eclipse.php.smarty.core.SmartyCorePlugin;
+import org.eclipse.php.smarty.internal.core.compiler.SmartyCompiler;
 
 public class SmartyBuilder implements IPHPBuilderExtension {
 
@@ -75,6 +76,8 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 			}
 			// parse each PHP file with the parserFacade which adds it to
 			// the model
+			SmartyCompiler.compile();
+			
 			if (resource.getType() == IResource.FILE) {
 				handle((IFile) resource);
 				return false;
