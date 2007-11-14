@@ -7,6 +7,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
@@ -17,41 +19,101 @@ import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.php.core.project.build.IPHPBuilderExtension;
 import org.eclipse.php.internal.core.phpModel.phpElementData.PHPMarker;
+import org.eclipse.php.internal.core.project.PHPNature;
 import org.eclipse.php.internal.core.project.options.PHPProjectOptions;
 import org.eclipse.php.smarty.core.SmartyCorePlugin;
 import org.eclipse.php.smarty.internal.core.compiler.SmartyCompiler;
 
 public class SmartyBuilder implements IPHPBuilderExtension {
-
-	public static final String BUILDER_ID = SmartyCorePlugin.PLUGIN_ID + ".builder";
-	public static final String CONTENTTYPE_ID = SmartyCorePlugin.PLUGIN_ID + ".template";
-	private static final IContentTypeManager CONTENT_TYPE_MANAGER = Platform.getContentTypeManager();
 	
 	public boolean isEnabled() {
 		return true;
 	}
 
-	public IProject[] build(IncrementalProjectBuilder builder, int kind,
-			Map args, IProgressMonitor monitor) throws CoreException {
-		// TODO Auto-generated method stub
+	public void startupOnInitialize(IncrementalProjectBuilder builder) {
+		//Initialization logic
+	}
+
+	public void clean(IncrementalProjectBuilder builder, IProgressMonitor monitor) throws CoreException {
+		cleanBuild(builder.getProject());
+	}
+
+	public IProject[] build(IncrementalProjectBuilder builder, int kind, Map args, IProgressMonitor monitor) throws CoreException {
+
+		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
+			fullBuild(builder, monitor);
+			return null;
+		}
+		
+		IResourceDelta delta = builder.getDelta(builder.getProject());
+		if (delta == null) {
+			return null;
+		}
+
+		buildDelta(delta, monitor);
+		
 		return null;
 	}
 
-	public void clean(IncrementalProjectBuilder builder,
-			IProgressMonitor monitor) throws CoreException {
-		// TODO Auto-generated method stub
-		
+	private void fullBuild(IncrementalProjectBuilder builder, IProgressMonitor monitor) {
+		try {
+			IProject project = builder.getProject();
+			project.accept(new SmartyResourceVisitor(monitor));
+		} catch (CoreException e) {
+			SmartyCorePlugin.log(e);
+			return;
+		}  
 	}
 
-	public void startupOnInitialize(IncrementalProjectBuilder builder) {
-		// TODO Auto-generated method stub
-		
+	private void buildDelta(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
+		// the visitor does the work.
+		delta.accept(new SmartyDeltaVisitor());
 	}
 
-	private boolean isSmartyFile(IFile file) {
+	private void cleanBuild(IProject project) {
+		try {
+			if (!project.hasNature(PHPNature.ID)) {
+				return;
+			}
+		} catch (CoreException e) {
+			SmartyCorePlugin.log(e);
+			return;
+		}
+
+	}
+	
+	public static final String BUILDER_ID = "org.eclipse.php.smarty.internal.core.builder.SmartyBuilderExtension";
+	// used to examine if a file is a smarty template
+	private static final IContentTypeManager CONTENT_TYPE_MANAGER = Platform.getContentTypeManager();
+	
+	private static final String PHP_PROBLEM_MARKER_TYPE = "phpproblemmarker";
+	
+	private void addMarker(IFile file, String message, int lineNumber,
+			int severity) {
+		try {
+			IMarker marker = file.createMarker(PHP_PROBLEM_MARKER_TYPE);
+			marker.setAttribute(IMarker.MESSAGE, message);
+			marker.setAttribute(IMarker.SEVERITY, severity);
+			if (lineNumber == -1) {
+				lineNumber = 1;
+			}
+			marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
+		} catch (CoreException e) {
+			
+		}
+	}
+
+	private void deleteMarkers(IFile file) {
+		try {
+			file.deleteMarkers(PHP_PROBLEM_MARKER_TYPE, false, IResource.DEPTH_ZERO);
+		} catch (CoreException ce) {
+		}
+	}
+	
+	private boolean isSmartyTemplate(IFile file) {
 		final int numSegments = file.getFullPath().segmentCount();
 		final String filename = file.getFullPath().segment(numSegments - 1);
-		final IContentType contentType = CONTENT_TYPE_MANAGER.getContentType(CONTENTTYPE_ID);
+		final IContentType contentType = CONTENT_TYPE_MANAGER.getContentType(SmartyCorePlugin.PLUGIN_ID + ".template");
 		if (contentType.isAssociatedWith(filename)) {
 			return true;
 		}
@@ -59,8 +121,66 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 	}
 	
 	private void validate(IFile file) {
-		
+		deleteMarkers(file);
+		try {
+			SmartyCompiler.compile();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
+	
+	class SmartyDeltaVisitor implements IResourceDeltaVisitor {
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse.core.resources.IResourceDelta)
+		 */
+		public boolean visit(IResourceDelta delta) {
+			switch (delta.getResource().getType()) {
+				//only process files with PHP content type
+				case IResource.FILE:
+					processFileDelta(delta);
+					return false;
+
+					//only process projects with PHP nature
+				case IResource.PROJECT:
+					return processProjectDelta(delta);
+
+				default:
+					return true;
+			}
+		}
+		
+		private void processFileDelta(IResourceDelta fileDelta) {
+			//System.out.println("processFileDelta");
+			IFile file = (IFile) fileDelta.getResource();
+
+			switch (fileDelta.getKind()) {
+				case IResourceDelta.ADDED:
+				case IResourceDelta.CHANGED:
+					if (isSmartyTemplate(file)) 
+						validate(file);
+					break;
+				case IResourceDelta.REMOVED:
+					// removed automatically from the validator, no need to enforce
+					break;
+			}
+		}
+		
+		private boolean processProjectDelta(IResourceDelta projectDelta) {
+			IProject project = (IProject) projectDelta.getResource();
+			try {
+				if (!project.hasNature(PHPNature.ID)) {
+					return false;
+				}
+			} catch (CoreException e) {
+				SmartyCorePlugin.log(e);
+				return false;
+			}
+			return true;
+		}
+	}	
 	
 	public class SmartyResourceVisitor implements IResourceVisitor {
 
@@ -76,8 +196,6 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 			}
 			// parse each PHP file with the parserFacade which adds it to
 			// the model
-			SmartyCompiler.compile();
-			
 			if (resource.getType() == IResource.FILE) {
 				handle((IFile) resource);
 				return false;
@@ -91,6 +209,11 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 		}
 
 		private boolean handle(IProject project) {
+			/* //check if the project contains PHP
+			if (PHPWorkspaceModelManager.getInstance().getModelForProject(project, true) == null) {
+				return false;
+			}
+			*/ 
 			PHPProjectOptions projectOptions = PHPProjectOptions.forProject(project);
 			projectOptions.validateIncludePath();
 			return true;
@@ -101,10 +224,9 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 				return;
 			}
 			
-			if (!isSmartyFile(file)) {
+			if (!isSmartyTemplate(file)) {
 				return;
 			}
-			
 			monitor.subTask(NLS.bind("Parsing: {0} ...", file.getFullPath().toPortableString()));
 
 			validate(file); 

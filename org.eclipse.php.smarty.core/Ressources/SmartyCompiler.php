@@ -1,5 +1,5 @@
 <?php
-require_once 'Ressources/Smarty-2.6.18/libs/Smarty_Compiler.class.php';
+require_once 'Ressources/Smarty-2.6.18/Smarty_Compiler.class.php';
 
 class SmartyCompiler{
 
@@ -8,7 +8,7 @@ class SmartyCompiler{
 	private $port = 6881;
 	private $status = 0;
 	
-	private $smarty
+	private $smarty;
 	
 	const DISCONNECTED = 0;
 	const CONNECTED = 1;

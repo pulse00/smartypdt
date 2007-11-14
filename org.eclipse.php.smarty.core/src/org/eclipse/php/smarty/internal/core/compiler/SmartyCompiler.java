@@ -9,6 +9,7 @@ import java.net.Socket;
 import org.eclipse.php.internal.core.PHPCoreConstants;
 import org.eclipse.php.internal.core.preferences.CorePreferenceConstants;
 import org.eclipse.php.internal.core.preferences.CorePreferenceConstants.Keys;
+import org.eclipse.php.internal.debug.core.launching.PHPExecutableLaunchDelegate;
 
 public class SmartyCompiler implements Runnable{
 
@@ -17,7 +18,8 @@ public class SmartyCompiler implements Runnable{
 	private int port = 6881;
 
 	public static void compile(){
-		
+		PHPExecutableLaunchDelegate phpExec = new PHPExecutableLaunchDelegate();
+		//phpExec.getLaunch();
 		System.err.println("toto"+	CorePreferenceConstants.getPreferenceStore().getDefaultString(PHPCoreConstants.ATTR_LOCATION));
 		//PHPExecutableLaunchDelegate
 //		PHPExecutableLaunchDelegate
