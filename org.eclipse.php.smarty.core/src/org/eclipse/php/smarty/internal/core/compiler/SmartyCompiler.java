@@ -25,7 +25,7 @@ public class SmartyCompiler{
 			throw new Exception("Didn't find any PHP executable, please define one in the PHP preferences.");
 		}
 
-		String phpExe = phpExes[0].getPhpEXE().toString();
+		String phpExe = phpExes[0].getPhpExecutable().toString();
 
 		String[] args = {phpExe, FileLocator.resolve(SMARTY_COMPILER).getPath(),
 							file.getLocation().toOSString()};
