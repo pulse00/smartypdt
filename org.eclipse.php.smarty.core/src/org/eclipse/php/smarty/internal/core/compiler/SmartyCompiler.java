@@ -1,88 +1,39 @@
 package org.eclipse.php.smarty.internal.core.compiler;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.URL;
 
-import org.eclipse.php.internal.core.PHPCoreConstants;
-import org.eclipse.php.internal.core.preferences.CorePreferenceConstants;
-import org.eclipse.php.internal.core.preferences.CorePreferenceConstants.Keys;
-import org.eclipse.php.internal.debug.core.launching.PHPExecutableLaunchDelegate;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.php.internal.debug.core.preferences.PHPexeItem;
+import org.eclipse.php.internal.debug.core.preferences.PHPexes;
+import org.eclipse.php.smarty.core.SmartyCorePlugin;
 
-public class SmartyCompiler implements Runnable{
+public class SmartyCompiler{
+	
+	final public static URL SMARTY_COMPILER = SmartyCorePlugin
+												.getDefault()
+												.getBundle()
+												.getEntry("Ressources/SmartyCompiler.php");
 
-	private ServerSocket serverSocket;
-	private Socket socket;
-	private int port = 6881;
+	public static String compile(IFile file) throws Exception{
+		
+		PHPexeItem[] phpExes = PHPexes.getInstance().getAllItems();
 
-	public static void compile(){
-		PHPExecutableLaunchDelegate phpExec = new PHPExecutableLaunchDelegate();
-		//phpExec.getLaunch();
-		System.err.println("toto"+	CorePreferenceConstants.getPreferenceStore().getDefaultString(PHPCoreConstants.ATTR_LOCATION));
-		//PHPExecutableLaunchDelegate
-//		PHPExecutableLaunchDelegate
-//		* if you need simple execution (to call a php code that then will
-//		connect to java via sockets) - use Process p =
-//		Runtime.getRuntime().exec(args, null);
-	}
-	
-	public void run() {
-		do{
-			
-		}while(true);
+		if(phpExes.length == 0){
+			throw new Exception("Didn't find any PHP executable, please define one in the PHP preferences.");
+		}
 
-//        try {
-//
-//              serverSocket = new ServerSocket(port , 1);
-//
-//              socket = serverSocket.accept();
-//
-//              handleEvents(socket);
-//
-//        } catch (final IOException e) {
-//
-//        } finally {
-//
-//              shutdown(false);
-//
-//        }
-    }
-	
-	private void shutdown(boolean b) {
-		// TODO Auto-generated method stub
-	}
+		String phpExe = phpExes[0].getPhpEXE().toString();
 
-	protected void handleEvents(final Socket socket) {
-	
-	    try {
-	
-	          final BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	
-	          String line;
-	
-	          Object value;
-	
-	          while ((line = reader.readLine()) != null)
-	
-	                try {
-	
-	                      //value = JSONValue.parse(line);
-	
-	                      //YourOwnParser.parseMessage(value);
-	
-	                } catch (final Throwable e) {
-	
-	                      // alert exception;
-	
-	                }
-	
-	    } catch (final Exception e) {
-	
-	          // alert exception;
-	
-	    }
-	
+		String[] args = {phpExe, FileLocator.resolve(SMARTY_COMPILER).getPath(),
+							file.getLocation().toOSString()};
+
+		Process p = Runtime.getRuntime().exec(args, null);
+		p.waitFor();
+
+		BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		return output.readLine();
 	}
 }

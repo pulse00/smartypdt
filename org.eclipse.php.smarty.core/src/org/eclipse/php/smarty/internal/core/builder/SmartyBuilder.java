@@ -1,6 +1,5 @@
 package org.eclipse.php.smarty.internal.core.builder;
 
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -18,11 +17,12 @@ import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.php.core.project.build.IPHPBuilderExtension;
-import org.eclipse.php.internal.core.phpModel.phpElementData.PHPMarker;
+import org.eclipse.php.internal.core.PHPCorePlugin;
 import org.eclipse.php.internal.core.project.PHPNature;
 import org.eclipse.php.internal.core.project.options.PHPProjectOptions;
 import org.eclipse.php.smarty.core.SmartyCorePlugin;
 import org.eclipse.php.smarty.internal.core.compiler.SmartyCompiler;
+import org.json.JSONObject;
 
 public class SmartyBuilder implements IPHPBuilderExtension {
 	
@@ -86,7 +86,7 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 	// used to examine if a file is a smarty template
 	private static final IContentTypeManager CONTENT_TYPE_MANAGER = Platform.getContentTypeManager();
 	
-	private static final String PHP_PROBLEM_MARKER_TYPE = "phpproblemmarker";
+	private static final String PHP_PROBLEM_MARKER_TYPE = PHPCorePlugin.ID +".phpproblemmarker";
 	
 	private void addMarker(IFile file, String message, int lineNumber,
 			int severity) {
@@ -123,9 +123,14 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 	private void validate(IFile file) {
 		deleteMarkers(file);
 		try {
-			SmartyCompiler.compile();
+			String result = SmartyCompiler.compile(file);
+			if(result != null){
+				JSONObject marker = new JSONObject(result);
+				addMarker(file, marker.getString("message"),
+							marker.getInt("line"), IMarker.SEVERITY_ERROR);
+			}
 		} catch (Exception e){
-			e.printStackTrace();
+			addMarker(file, e.getMessage(), 1, IMarker.SEVERITY_ERROR);
 		}
 	}
 	

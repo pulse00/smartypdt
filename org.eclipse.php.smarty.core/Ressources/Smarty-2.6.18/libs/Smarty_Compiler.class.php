@@ -2215,7 +2215,8 @@ class Smarty_Compiler extends Smarty {
      */
     function _syntax_error($error_msg, $error_type = E_USER_ERROR, $file=null, $line=null)
     {
-        $this->_trigger_fatal_error("syntax error: $error_msg", $this->_current_file, $this->_current_line_no, $file, $line, $error_type);
+    	echo json_encode(array("message"=>$error_msg, "file"=>$this->_current_file, "line"=>$this->_current_line_no));
+        //$this->_trigger_fatal_error("syntax error: $error_msg", $this->_current_file, $this->_current_line_no, $file, $line, $error_type);
     }
 
 
