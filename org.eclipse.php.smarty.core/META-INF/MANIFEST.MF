@@ -20,3 +20,5 @@ Export-Package: org.eclipse.php.smarty.core,
  org.eclipse.php.smarty.internal.core.documentModel.parser,
  org.eclipse.php.smarty.internal.core.documentModel.parser.partitioner,
  org.eclipse.php.smarty.internal.core.documentModel.parser.test
+Bundle-ClassPath: Ressources/json.jar,
+ .
