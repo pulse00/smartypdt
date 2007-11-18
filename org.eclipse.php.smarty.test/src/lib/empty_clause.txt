@@ -1,0 +1,3 @@
+content for this run: {}
+SMARTY_OPEN
+SMARTY_CLOSE

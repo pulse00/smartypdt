@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test Plug-in for smarty
+Bundle-SymbolicName: org.eclipse.php.smarty.test
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.php.smarty.test.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.php,
+ org.eclipse.php.core,
+ org.eclipse.php.test,
+ org.eclipse.php.ui,
+ org.junit4,
+ org.eclipse.wst.sse.core,
+ org.eclipse.wst.xml.core,
+ org.eclipse.core.resources
+Eclipse-LazyStart: true

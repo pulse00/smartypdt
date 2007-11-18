@@ -1,0 +1,4 @@
+content for this run: {$djhfdksj}
+SMARTY_OPEN
+SMARTY_VARIABLE
+SMARTY_CLOSE
