@@ -22,6 +22,7 @@ import org.eclipse.php.internal.core.project.PHPNature;
 import org.eclipse.php.internal.core.project.options.PHPProjectOptions;
 import org.eclipse.php.smarty.core.SmartyCorePlugin;
 import org.eclipse.php.smarty.internal.core.compiler.SmartyCompiler;
+import org.eclipse.ui.internal.UIPlugin;
 import org.json.JSONObject;
 
 public class SmartyBuilder implements IPHPBuilderExtension {
@@ -99,7 +100,7 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 			}
 			marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
 		} catch (CoreException e) {
-			
+			// catch the exception and alert user
 		}
 	}
 
