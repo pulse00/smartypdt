@@ -31,7 +31,7 @@ public class SmartyCompiler{
 		String[] args = {phpExe, compilerFilename, file.getLocation().toOSString()};
 
 		// run the php code and wait for results
-		Process p = Runtime.getRuntime().exec(args, null);
+		Process p = Runtime.getRuntime().exec(args);
 		p.waitFor();
 
 		// return the results from the process  
@@ -44,7 +44,7 @@ public class SmartyCompiler{
 		if(phpExes.length == 0){
 			throwError();
 		}
-		String phpExe = phpExes[0].getExecutable().toString();
+		String phpExe = phpExes[2].getExecutable().toString();
 		return phpExe;
 	}
 

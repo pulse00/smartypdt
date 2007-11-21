@@ -2,14 +2,7 @@ package org.eclipse.php.smarty.internal.core.builder;
 
 import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.IResourceVisitor;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -22,8 +15,7 @@ import org.eclipse.php.internal.core.project.PHPNature;
 import org.eclipse.php.internal.core.project.options.PHPProjectOptions;
 import org.eclipse.php.smarty.core.SmartyCorePlugin;
 import org.eclipse.php.smarty.internal.core.compiler.SmartyCompiler;
-import org.eclipse.ui.internal.UIPlugin;
-import org.json.JSONObject;
+import org.eclipse.php.smarty.internal.core.json.JSONObject;
 
 public class SmartyBuilder implements IPHPBuilderExtension {
 	
