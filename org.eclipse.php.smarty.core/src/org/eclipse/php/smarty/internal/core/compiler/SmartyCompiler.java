@@ -44,7 +44,7 @@ public class SmartyCompiler{
 		if(phpExes.length == 0){
 			throwError();
 		}
-		String phpExe = phpExes[0].getPhpExecutable().toString();
+		String phpExe = phpExes[0].getExecutable().toString();
 		return phpExe;
 	}
 
