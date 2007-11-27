@@ -9,7 +9,7 @@
  *   Zend and IBM - Initial implementation
  *******************************************************************************/
 /*nlsXXX*/
-package org.eclipse.php.internal.core.documentModel.parser;
+package org.eclipse.php.smarty.internal.core.documentModel.parser;
 
 import java.io.CharArrayReader;
 import java.io.IOException;
@@ -18,7 +18,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.php.internal.core.PHPCoreConstants;
+import org.eclipse.php.internal.core.documentModel.parser.*;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PhpScriptRegion;
+import org.eclipse.php.internal.core.project.properties.handlers.PhpVersionProjectPropertyHandler;
 import org.eclipse.php.internal.core.project.properties.handlers.UseAspTagsHandler;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockMarker;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockTokenizer;
@@ -28,8 +31,8 @@ import org.eclipse.wst.sse.core.internal.util.Debug;
 import org.eclipse.wst.sse.core.utils.StringUtils;
 import org.eclipse.wst.xml.core.internal.Logger;
 import org.eclipse.wst.xml.core.internal.parser.ContextRegionContainer;
-import org.eclipse.wst.xml.core.internal.parser.regions.XMLParserRegionFactory;
 import org.eclipse.wst.xml.core.internal.parser.IntStack;
+import org.eclipse.wst.xml.core.internal.parser.regions.XMLParserRegionFactory;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 
 %%
@@ -368,9 +371,9 @@ private final String doScanEndPhp(boolean isAsp, String searchContext, int exitS
 	yypushback(1); // begin with the last char
 	
 	int[] currentParameters = getParamenters();
-	currentParameters[6] = PhpLexer.ST_PHP_IN_SCRIPTING;
+	currentParameters[6] = ST_PHP_IN_SCRIPTING;
 	
-	final PhpLexer phpLexer = PhpScriptRegion.getPhpLexer(project, yy_reader, yy_buffer, currentParameters); 
+	final PhpLexer phpLexer = getPhpLexer(currentParameters); 
 	bufferedTextRegion = new PhpScriptRegion(searchContext, yychar, project, phpLexer);
 
 	// restore the locations / states
@@ -378,6 +381,27 @@ private final String doScanEndPhp(boolean isAsp, String searchContext, int exitS
 	
 	yybegin(exitState);
 	return searchContext;
+}
+
+/**
+ * @param project
+ * @param stream
+ * @return a new lexer for the given project with the given stream
+ */
+private PhpLexer getPhpLexer(int[] parameters) {
+	PhpLexer lexer;
+	final String phpVersion = PhpVersionProjectPropertyHandler.getVersion(project);
+	if (phpVersion.equals(PHPCoreConstants.PHP5)) {
+		lexer = new PhpLexer5(yy_reader);
+	} else {
+		lexer = new PhpLexer4(yy_reader);
+	}
+	lexer.initialize(parameters[6]);
+	lexer.reset(yy_reader, yy_buffer, parameters);
+	lexer.setPatterns(project);
+
+	lexer.setAspTags(UseAspTagsHandler.useAspTagsAsPhp(project));
+	return lexer;
 }
 
 // call the doScan without searching for PHP internal code
@@ -569,9 +593,11 @@ private final String doBlockTagScan() throws IOException {
 }
 
 private IProject project;
+private int ST_PHP_IN_SCRIPTING = -1; 
 
-public void setProject(IProject project){
+public void setProject(IProject project) {
 	this.project = project;
+	ST_PHP_IN_SCRIPTING = PHPLexerStates.toSpecificVersionState(project, PHPLexerStates.ST_PHP_IN_SCRIPTING);
 }
 
 public void reset(java.io.Reader  reader, char[] buffer, int[] parameters){
