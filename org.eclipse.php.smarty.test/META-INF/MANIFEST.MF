@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test Plug-in for smarty
 Bundle-SymbolicName: org.eclipse.php.smarty.test
-Bundle-Version: 1.0.0
+Bundle-Version: 0.5.2.qualifier
 Bundle-Activator: org.eclipse.php.smarty.test.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
