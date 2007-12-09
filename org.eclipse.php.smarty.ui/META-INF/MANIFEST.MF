@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ui Plug-in
 Bundle-SymbolicName: org.eclipse.php.smarty.ui;singleton:=true
-Bundle-Version: 0.0.2.qualifier
+Bundle-Version: 0.5.2.qualifier
 Bundle-Activator: org.eclipse.php.smarty.ui.SmartyUiPlugin
 Require-Bundle: org.eclipse.php.core,
  org.eclipse.ui,
