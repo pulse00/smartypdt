@@ -1295,7 +1295,7 @@ PHP_ASP_END=%>
 // SMARTY MACROS
 SMARTY_START = \{
 SMARTY_END = \}
-SMARTY_COMMENT =([\*]([^*]|(.))*[\*])
+SMARTY_COMMENT =([\*]([^*]|{WHITESPACE})*[\*])
 LABEL=[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 SMARTY_WHITESPACE=[ \n\r\t]+
 TOKENS=[:,.\[\]()|\^&+-//*=%!~$<>?@]
