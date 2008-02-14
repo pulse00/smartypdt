@@ -90,6 +90,10 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 	private String internalTagName = null;
 	private String internalContext = null;
 	
+	// The left and right delimiters
+	public static String smartyLeftDelim = "{";
+	public static String smartyRightDelim = "}";
+	
 	private final XMLParserRegionFactory fRegionFactory = new XMLParserRegionFactory();
 
 /**
@@ -1730,15 +1734,7 @@ NUMBER=([0-9])+
 	assert text != null;
 
 	// checks the smarty case
-	final int startChar = text.indexOf('{');
-	if (startChar != -1) {
-		yybegin(ST_SMARTY_CONTENT);
-		// pushback to just after the opening bracket
-		yypushback(yylength() - startChar - 1);
-		return SMARTY_OPEN;
-	}
-
-	return XML_CONTENT;
+	return findSmartyDelimiter(text, XML_CONTENT, smartyLeftDelim, SMARTY_OPEN, ST_SMARTY_CONTENT);
 }
 
 <ST_BLOCK_TAG_SCAN> .|\r|\n {
@@ -1748,6 +1744,8 @@ NUMBER=([0-9])+
 /////////////////// START SMARTY ADDITIONS
 
 <ST_SMARTY_CONTENT> "}" {
+	//TODO: Figure out how to change the end delimiter, so that 
+	//this.rightSmartyDelimiter is used (so it can be changed in config)
 	yybegin(YYINITIAL);
 	return SMARTY_CLOSE;
 }
@@ -1834,7 +1832,7 @@ NUMBER=([0-9])+
 }
 
 <ST_SMARTY_CONTENT> .|\n|\r {
-	return doScan("}", false, false, SMARTY_CONTENT, ST_SMARTY_CONTENT, ST_SMARTY_CONTENT);
+	return doScan(smartyRightDelim, false, false, SMARTY_CONTENT, ST_SMARTY_CONTENT, ST_SMARTY_CONTENT);
 }
 /////////////////// END SMARTY ADDITIONS
 
