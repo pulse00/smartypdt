@@ -40,7 +40,8 @@ import org.eclipse.php.internal.ui.editor.contentassist.PHPContentAssistProcesso
 import org.eclipse.php.internal.ui.editor.contentassist.PHPDocContentAssistProcessor;
 import org.eclipse.php.internal.ui.editor.hover.PHPTextHoverProxy;
 import org.eclipse.php.internal.ui.preferences.PreferenceConstants;
-import org.eclipse.php.internal.ui.preferences.util.WeakPropertyChangeListener;
+//import org.eclipse.php.internal.ui.preferences.util.WeakPropertyChangeListener;
+import org.eclipse.php.internal.core.util.WeakPropertyChangeListener;
 import org.eclipse.php.internal.ui.text.PHPElementProvider;
 import org.eclipse.php.internal.ui.text.PHPOutlineInformationControl;
 import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
