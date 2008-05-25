@@ -26,15 +26,37 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 	public void startupOnInitialize(IncrementalProjectBuilder builder) {
 		//Initialization logic
 	}
+	
+	public void clean(IProject project, IProgressMonitor monitor) throws CoreException {
+		//PDT 1.0.3+
+		cleanBuild(project);
+	}
+	
+	public IProject[] build(IProject project, IResourceDelta delta, int kind, Map args, IProgressMonitor monitor) throws CoreException {
+		//PDT 1.0.3+
+		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
+			fullBuild(project, monitor);
+			return null;
+		}
+		
+		if (delta == null) {
+			return null;
+		}
 
+		buildDelta(delta, monitor);
+		
+		return null;
+	}
+	
 	public void clean(IncrementalProjectBuilder builder, IProgressMonitor monitor) throws CoreException {
+		
 		cleanBuild(builder.getProject());
 	}
 
 	public IProject[] build(IncrementalProjectBuilder builder, int kind, Map args, IProgressMonitor monitor) throws CoreException {
 
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
-			fullBuild(builder, monitor);
+			fullBuild(builder.getProject(), monitor);
 			return null;
 		}
 		
@@ -47,10 +69,9 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 		
 		return null;
 	}
-
-	private void fullBuild(IncrementalProjectBuilder builder, IProgressMonitor monitor) {
+	
+	private void fullBuild(IProject project, IProgressMonitor monitor) {
 		try {
-			IProject project = builder.getProject();
 			project.accept(new SmartyResourceVisitor(monitor));
 		} catch (CoreException e) {
 			SmartyCorePlugin.log(e);

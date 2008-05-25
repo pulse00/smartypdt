@@ -40,12 +40,14 @@ public class SmartyCompiler{
 	}
 
 	private static String getPhpExecutable() throws Exception {
-		PHPexeItem[] phpExes = PHPexes.getInstance().getAllItems();
-		if(phpExes.length == 0){
+		PHPexeItem phpExe = PHPexes.getInstance().getDefaultItem("org.eclipse.php.debug.core.zendDebugger");
+		
+		if (phpExe == null){
 			throwError();
 		}
-		String phpExe = phpExes[2].getExecutable().toString();
-		return phpExe;
+		String phpExeName = phpExe.getExecutable().toString();
+		
+		return phpExeName;
 	}
 
 	private static String getFilename() throws IOException, Exception {
@@ -58,8 +60,8 @@ public class SmartyCompiler{
 		final String compilerFilename = path.toOSString();
 		return compilerFilename;
 	}
-
+	
 	private static void throwError() throws Exception {
-		throw new Exception("Didn't find any PHP executable, please define one in the PHP preferences.");
+		throw new Exception("Didn't find the default PHP executable, please define a default PHP executable of type 'Zend Debugger'.");
 	}
 }

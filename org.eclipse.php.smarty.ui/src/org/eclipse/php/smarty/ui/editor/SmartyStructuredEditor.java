@@ -32,9 +32,11 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IURIEditorInput;
+import org.eclipse.php.internal.core.preferences.IPreferencesPropagatorListener;
 
 public class SmartyStructuredEditor extends PHPStructuredEditor {
-
+	private boolean isExternal;
+	private IPreferencesPropagatorListener phpVersionListener;
 	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
 		IResource resource = null;
@@ -97,6 +99,7 @@ public class SmartyStructuredEditor extends PHPStructuredEditor {
 				}
 				SmartySourceParser.editFile.set(resource);
 				super.doSetInput(input);
+				
 				PhpVersionChangedHandler.getInstance().addPhpVersionChangedListener(phpVersionListener);
 			} else {
 				super.doSetInput(input);
