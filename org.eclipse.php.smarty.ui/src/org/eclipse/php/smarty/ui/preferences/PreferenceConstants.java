@@ -10,24 +10,11 @@
  *******************************************************************************/
 package org.eclipse.php.smarty.ui.preferences;
 
-import java.util.Locale;
-
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.php.internal.core.PHPCoreConstants;
-import org.eclipse.php.internal.core.phpModel.parser.PHPVersion;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
-import org.eclipse.php.internal.ui.preferences.PHPManualConfig;
-import org.eclipse.php.internal.ui.preferences.PHPManualConfigSerializer;
-import org.eclipse.php.internal.ui.util.PHPManualSiteDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
-import org.eclipse.wst.sse.ui.internal.projection.IStructuredTextFoldingProvider;
 
 public class PreferenceConstants {
 

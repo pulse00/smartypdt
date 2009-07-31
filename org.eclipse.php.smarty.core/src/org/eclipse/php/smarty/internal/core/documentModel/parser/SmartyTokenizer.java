@@ -20,11 +20,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.php.internal.core.PHPCoreConstants;
-import org.eclipse.php.internal.core.documentModel.parser.*;
+import org.eclipse.php.internal.core.PHPVersion;
+import org.eclipse.php.internal.core.documentModel.parser.AbstractPhpLexer;
+import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
+import org.eclipse.php.internal.core.documentModel.parser.PhpLexerFactory;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PhpScriptRegion;
-import org.eclipse.php.internal.core.project.properties.handlers.PhpVersionProjectPropertyHandler;
-import org.eclipse.php.internal.core.project.properties.handlers.UseAspTagsHandler;
+import org.eclipse.php.internal.core.project.ProjectOptions;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockMarker;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockTokenizer;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
@@ -704,7 +705,7 @@ private final String doScan(String searchString, boolean allowPHP, boolean requi
 			// spill over the end of the buffer while checking.
 			if(allowPHP && yy_startRead != fLastInternalBlockStart && yy_currentPos > 0 && yy_currentPos < yy_buffer.length - 1 &&
 					yy_buffer[yy_currentPos - 1] == '<' && 
-					(yy_buffer[yy_currentPos] == '?' || (yy_buffer[yy_currentPos] == '%' && UseAspTagsHandler.useAspTagsAsPhp(project)))) {
+					(yy_buffer[yy_currentPos] == '?' || (yy_buffer[yy_currentPos] == '%' && ProjectOptions.isSupportingAspTags(project)))) {
 				fLastInternalBlockStart = yy_markedPos = yy_currentPos - 1;
 				yy_currentPos = yy_markedPos + 1;
 				int resumeState = yystate();
@@ -835,14 +836,11 @@ private ITextRegion bufferedTextRegion = null;
 private final String doScanEndPhp(boolean isAsp, String searchContext, int exitState, int immediateFallbackState) throws IOException {
 	yypushback(1); // begin with the last char
 	
-	int[] currentParameters = getParamenters();
-	currentParameters[6] = ST_PHP_IN_SCRIPTING;
-	
-	final PhpLexer phpLexer = getPhpLexer(currentParameters); 
+	final AbstractPhpLexer phpLexer = getPhpLexer(); 
 	bufferedTextRegion = new PhpScriptRegion(searchContext, yychar, project, phpLexer);
 
 	// restore the locations / states
-	reset(yy_reader, phpLexer.getYy_buffer(), phpLexer.getParamenters());
+	reset(yy_reader, phpLexer.getZZBuffer(), phpLexer.getParamenters());
 	
 	yybegin(exitState);
 	return searchContext;
@@ -853,19 +851,22 @@ private final String doScanEndPhp(boolean isAsp, String searchContext, int exitS
  * @param stream
  * @return a new lexer for the given project with the given stream
  */
-private PhpLexer getPhpLexer(int[] parameters) {
-	PhpLexer lexer;
-	final String phpVersion = PhpVersionProjectPropertyHandler.getVersion(project);
-	if (phpVersion.equals(PHPCoreConstants.PHP5)) {
-		lexer = new PhpLexer5(yy_reader);
-	} else {
-		lexer = new PhpLexer4(yy_reader);
+private AbstractPhpLexer getPhpLexer() {
+	final PHPVersion phpVersion = ProjectOptions.getPhpVersion(project.getProject());
+	final AbstractPhpLexer lexer = PhpLexerFactory.createLexer(yy_reader, phpVersion);
+	int[] currentParameters = getParamenters();
+	try {
+		// set initial lexer state - we use reflection here since we don't know the constant value of 
+		// of this state in specific PHP version lexer 
+		currentParameters[6] = lexer.getClass().getField("ST_PHP_IN_SCRIPTING").getInt(lexer);
+	} catch (Exception e) {
+		Logger.logException(e);
 	}
-	lexer.initialize(parameters[6]);
-	lexer.reset(yy_reader, yy_buffer, parameters);
+	lexer.initialize(currentParameters[6]);
+	lexer.reset(yy_reader, yy_buffer, currentParameters);
 	lexer.setPatterns(project);
 
-	lexer.setAspTags(UseAspTagsHandler.useAspTagsAsPhp(project));
+	lexer.setAspTags(ProjectOptions.isSupportingAspTags(project));
 	return lexer;
 }
 
@@ -1062,7 +1063,6 @@ private int ST_PHP_IN_SCRIPTING = -1;
 
 public void setProject(IProject project) {
 	this.project = project;
-	ST_PHP_IN_SCRIPTING = PHPLexerStates.toSpecificVersionState(project, PHPLexerStates.ST_PHP_IN_SCRIPTING);
 }
 
 public void reset(java.io.Reader  reader, char[] buffer, int[] parameters){
@@ -1921,7 +1921,7 @@ protected final String findSmartyDelimiter(String text, String insideOf, String 
         case 122: 
         case 201: 
           { 
-    if (UseAspTagsHandler.useAspTagsAsPhp(project) ||yytext().charAt(1) != '%') {
+    if (ProjectOptions.isSupportingAspTags(project) ||yytext().charAt(1) != '%') {
 		//removeing trailing whitespaces for the php open
 		String phpStart = yytext();
 		int i = phpStart.length() - 1; 
@@ -2369,7 +2369,7 @@ protected final String findSmartyDelimiter(String text, String insideOf, String 
         case 92: 
         case 93: 
           { 
-	return doScanEndPhp(UseAspTagsHandler.useAspTagsAsPhp(project), PHP_CONTENT, ST_PHP_CONTENT, ST_PHP_CONTENT);
+	return doScanEndPhp(ProjectOptions.isSupportingAspTags(project), PHP_CONTENT, ST_PHP_CONTENT, ST_PHP_CONTENT);
  }
         case 340: break;
         case 94: 

@@ -2,12 +2,18 @@
 <?eclipse version="3.2"?>
 <plugin>
 	<!-- Smarty PHP Builder Extension -->
-	<extension point="org.eclipse.php.core.phpBuilderExtensions">
-    	<builder
-    		class="org.eclipse.php.smarty.internal.core.builder.SmartyBuilder"
-            id="org.eclipse.php.smarty.core.builder">
-		</builder>
-	</extension>
+	 <extension
+	       id="id1"
+	       point="org.eclipse.core.resources.builders">
+	    <builder
+	          callOnEmptyDelta="false"
+	          hasNature="true"
+	          isConfigurable="true">
+	       <run
+	             class="org.eclipse.php.smarty.core.SmartyProjectBuilder">
+	       </run>
+	    </builder>
+	 </extension>
 
 	<!-- Smarty Content Type declaration -->
 	<extension point="org.eclipse.core.runtime.contentTypes">

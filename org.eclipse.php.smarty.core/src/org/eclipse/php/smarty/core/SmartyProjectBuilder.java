@@ -1,75 +1,53 @@
-package org.eclipse.php.smarty.internal.core.builder;
+package org.eclipse.php.smarty.core;
 
 import java.util.Map;
 
-import org.eclipse.core.resources.*;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.php.core.project.build.IPHPBuilderExtension;
 import org.eclipse.php.internal.core.PHPCorePlugin;
 import org.eclipse.php.internal.core.project.PHPNature;
-import org.eclipse.php.internal.core.project.options.PHPProjectOptions;
-import org.eclipse.php.smarty.core.SmartyCorePlugin;
 import org.eclipse.php.smarty.internal.core.compiler.SmartyCompiler;
 import org.eclipse.php.smarty.internal.core.json.JSONObject;
 
-public class SmartyBuilder implements IPHPBuilderExtension {
-	
-	public boolean isEnabled() {
-		return true;
+public class SmartyProjectBuilder extends IncrementalProjectBuilder {
+
+	public SmartyProjectBuilder() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public void startupOnInitialize(IncrementalProjectBuilder builder) {
-		//Initialization logic
-	}
-	
-	public void clean(IProject project, IProgressMonitor monitor) throws CoreException {
+	@Override
+	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
+			throws CoreException {
+
 		//PDT 1.0.3+
-		cleanBuild(project);
-	}
-	
-	public IProject[] build(IProject project, IResourceDelta delta, int kind, Map args, IProgressMonitor monitor) throws CoreException {
-		//PDT 1.0.3+
+		final IProject project = getProject();
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
 			fullBuild(project, monitor);
 			return null;
 		}
 		
-		if (delta == null) {
+		if (getDelta(project) == null) {
 			return null;
 		}
 
-		buildDelta(delta, monitor);
+		buildDelta(getDelta(project), monitor);
 		
 		return null;
-	}
-	
-	public void clean(IncrementalProjectBuilder builder, IProgressMonitor monitor) throws CoreException {
-		
-		cleanBuild(builder.getProject());
+
 	}
 
-	public IProject[] build(IncrementalProjectBuilder builder, int kind, Map args, IProgressMonitor monitor) throws CoreException {
-
-		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
-			fullBuild(builder.getProject(), monitor);
-			return null;
-		}
-		
-		IResourceDelta delta = builder.getDelta(builder.getProject());
-		if (delta == null) {
-			return null;
-		}
-
-		buildDelta(delta, monitor);
-		
-		return null;
-	}
-	
 	private void fullBuild(IProject project, IProgressMonitor monitor) {
 		try {
 			project.accept(new SmartyResourceVisitor(monitor));
@@ -228,13 +206,6 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 		}
 
 		private boolean handle(IProject project) {
-			/* //check if the project contains PHP
-			if (PHPWorkspaceModelManager.getInstance().getModelForProject(project, true) == null) {
-				return false;
-			}
-			*/ 
-			PHPProjectOptions projectOptions = PHPProjectOptions.forProject(project);
-			projectOptions.validateIncludePath();
 			return true;
 		}
 
@@ -252,4 +223,6 @@ public class SmartyBuilder implements IPHPBuilderExtension {
 
 		}
 	}
+
+	
 }

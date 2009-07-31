@@ -13,10 +13,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.wst.validation,
  org.eclipse.php.core,
  org.eclipse.php.debug.core,
- org.eclipse.debug.core
+ org.eclipse.debug.core,
+ org.eclipse.dltk.core;bundle-version="2.0.0"
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.php.smarty.core,
- org.eclipse.php.smarty.internal.core.builder,
  org.eclipse.php.smarty.internal.core.documentModel.parser,
  org.eclipse.php.smarty.internal.core.documentModel.parser.partitioner,
  org.eclipse.php.smarty.internal.core.documentModel.parser.test
