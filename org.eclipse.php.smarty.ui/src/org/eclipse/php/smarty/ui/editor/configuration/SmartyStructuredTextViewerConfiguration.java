@@ -90,11 +90,20 @@ public class SmartyStructuredTextViewerConfiguration extends PHPStructuredTextVi
 	public IContentAssistProcessor[] getContentAssistProcessors(ISourceViewer sourceViewer, String partitionType) {
 		IContentAssistProcessor[] processors = null;
 
-		if (partitionType == SmartyPartitionTypes.SMARTY_DEFAULT) {
+		if (partitionType.equals(SmartyPartitionTypes.SMARTY_DEFAULT) /*||
+				partitionType.equals(IHTMLPartitions.HTML_DEFAULT)*/) {
 			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
 			processors = new IContentAssistProcessor[processorsList.size()];
 			processorsList.toArray(processors);
-		} else {
+		}else if(partitionType.equals(IHTMLPartitions.HTML_DEFAULT)){
+			ArrayList processorsList = getPHPDefaultProcessors(sourceViewer);
+			IContentAssistProcessor[] smartyProcessors = new IContentAssistProcessor[processorsList.size()];
+			processorsList.toArray(smartyProcessors);
+			IContentAssistProcessor[] phpProcessors = super.getContentAssistProcessors(sourceViewer, partitionType);
+			processors = new IContentAssistProcessor[smartyProcessors.length + phpProcessors.length]; 
+			System.arraycopy(smartyProcessors, 0, processors, 0, smartyProcessors.length);
+			System.arraycopy(phpProcessors, 0, processors, smartyProcessors.length, phpProcessors.length);
+		}else {
 			processors = super.getContentAssistProcessors(sourceViewer, partitionType);
 		}
 		return processors;
@@ -108,7 +117,7 @@ public class SmartyStructuredTextViewerConfiguration extends PHPStructuredTextVi
 		}
 		processors = new ArrayList();
 		ITextEditor textEditor = ((PHPStructuredTextViewer)sourceViewer).getTextEditor();
-		processors.add(new PHPCompletionProcessor(textEditor, (ContentAssistant) getPHPContentAssistant(sourceViewer), PHPPartitionTypes.PHP_DEFAULT));
+		processors.add(new PHPCompletionProcessor(textEditor, (ContentAssistant) getPHPContentAssistant(sourceViewer), SmartyPartitionTypes.SMARTY_DEFAULT));
 		String processorsExtensionName = "org.eclipse.php.ui.phpContentAssistProcessor"; //$NON-NLS-1$
 
 		IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(processorsExtensionName);

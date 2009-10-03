@@ -25,3 +25,4 @@ Require-Bundle: org.eclipse.php.core,
 Eclipse-LazyStart: true
 Export-Package: 
  org.eclipse.php.smarty.ui.editor
+Import-Package: org.eclipse.ui.texteditor.templates

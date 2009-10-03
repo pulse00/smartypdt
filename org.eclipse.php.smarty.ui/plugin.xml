@@ -45,7 +45,52 @@
 	</extension>
    
    
-   
+
+	<extension id="SmartyCompletionProposalComputer"
+		point="org.eclipse.dltk.ui.scriptCompletionProposalComputer">
+		<scriptCompletionProposalComputer
+			categoryId="org.eclipse.dltk.ui.scriptTypeProposalCategory"
+			class="org.eclipse.php.smarty.ui.editor.configuration.SmartyCompletionProposalComputer"
+			toolkitId="org.eclipse.php.core.PHPNature">
+			<partition type="org.eclipse.php.SMARTY_DEFAULT">
+			</partition>
+		</scriptCompletionProposalComputer>
+	</extension>
 
 
+	<!--Templates:-->
+	<extension point="org.eclipse.ui.editors.templates">
+
+		<contextType name="smarty"
+			class="org.eclipse.php.smarty.ui.editor.templates.SmartyTemplateContextType"
+			id="smarty" />
+
+		<include file="templates/smartydefault-templates.xml"
+			translations="$nl$/templates/smartydefault-templates.properties" />
+
+	</extension>
+	
+	<extension point="org.eclipse.ui.preferencePages">
+		<page class="org.eclipse.php.smarty.ui.preferences.SmartyBasePreferencePage"
+			id="org.eclipse.php.smarty.ui.preferences.SmartyBasePreferencePage" name="%smartyPageName">
+			<keywordReference id="org.eclipse.php.smarty.ui.general" />
+		</page>
+		<page category="org.eclipse.php.smarty.ui.preferences.SmartyBasePreferencePage"
+			class="org.eclipse.php.smarty.ui.preferences.SmartyEditorPreferencePage"
+			id="org.eclipse.php.smarty.ui.preferences.SmartyEditorPreferencePage" name="%smartyEditorPageName">
+			<keywordReference id="org.eclipse.php.smarty.ui.editor" />
+		</page>
+		<page category="org.eclipse.php.smarty.ui.preferences.SmartyEditorPreferencePage"
+			class="org.eclipse.php.smarty.ui.preferences.SmartyTemplatesPreferencePage"
+			id="org.eclipse.php.smarty.ui.preferences.SmartyTemplatesPreferencePage" name="%templatesPreferencePageName">
+			<keywordReference id="org.eclipse.php.smarty.templates" />
+		</page>
+	</extension>
+	
+	<extension point="org.eclipse.ui.keywords">
+		<keyword label="%preferenceKeywords.templates" id="org.eclipse.php.smarty.templates" />
+		<keyword label="%preferenceKeywords.general" id="org.eclipse.php.smarty.ui.general" />
+		<keyword label="%preferenceKeywords.editor" id="org.eclipse.php.smarty.ui.editor" />
+	</extension>
+	
 </plugin>
