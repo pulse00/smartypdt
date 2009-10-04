@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-	<!-- Smarty PHP Builder Extension -->
+	<!-- Smarty PHP Builder Extension
 	 <extension
 	       id="id1"
 	       point="org.eclipse.core.resources.builders">
@@ -13,8 +13,15 @@
 	             class="org.eclipse.php.smarty.core.SmartyProjectBuilder">
 	       </run>
 	    </builder>
-	 </extension>
-
+	 </extension> -->
+	<extension point="org.eclipse.dltk.core.buildParticipant">
+      <buildParticipant
+	        class="org.eclipse.php.smarty.internal.core.builder.SmartyBuilder"
+            id="org.eclipse.php.smarty.core.builder"
+            name="Smarty template builder"
+            nature="org.eclipse.php.core.PHPNature">
+      </buildParticipant>
+    </extension>
 	<!-- Smarty Content Type declaration -->
 	<extension point="org.eclipse.core.runtime.contentTypes">
          <content-type

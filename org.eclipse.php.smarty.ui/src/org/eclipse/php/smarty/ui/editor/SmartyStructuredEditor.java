@@ -29,6 +29,7 @@ public class SmartyStructuredEditor extends PHPStructuredEditor {
 	private boolean isExternal;
 	private IPreferencesPropagatorListener phpVersionListener;
 
+	@SuppressWarnings({ "restriction", "unchecked" })
 	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
 		IResource resource = null;
@@ -53,7 +54,7 @@ public class SmartyStructuredEditor extends PHPStructuredEditor {
 		}
 
 		if (resource instanceof IFile) {
-			if (PHPToolkitUtil.isPhpFile((IFile) resource)) {
+			if (PHPToolkitUtil.isPhpFile((IFile) resource) || "tpl".equals(resource.getFullPath().getFileExtension())) {
 
 				SmartySourceParser.editFile.set(resource);
 
