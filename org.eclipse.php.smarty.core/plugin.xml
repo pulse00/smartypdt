@@ -23,7 +23,7 @@
       </buildParticipant>
     </extension>
 	<!-- Smarty Content Type declaration -->
-	<extension point="org.eclipse.core.runtime.contentTypes">
+	<extension point="org.eclipse.core.contenttype.contentTypes">
          <content-type
                base-type="org.eclipse.php.core.phpsource"
                file-extensions="tpl, template"
