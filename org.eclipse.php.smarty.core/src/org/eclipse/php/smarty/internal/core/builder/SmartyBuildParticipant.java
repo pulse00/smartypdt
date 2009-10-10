@@ -19,7 +19,7 @@ public class SmartyBuildParticipant implements IBuildParticipant {
 	private static final IContentTypeManager CONTENT_TYPE_MANAGER = Platform.getContentTypeManager();
 	
 	private static final String PHP_PROBLEM_MARKER_TYPE = PHPCorePlugin.ID +".phpproblemmarker";
-	
+	private static final String WARNING_PREFIX = "Warning: ";
 	@Override
 	public void build(IBuildContext context) throws CoreException {
 		IFile file = context.getFile();
@@ -44,11 +44,21 @@ public class SmartyBuildParticipant implements IBuildParticipant {
 		deleteMarkers(file);
 		try {
 			String result = SmartyCompiler.compile(file);
-			if(result != null && result.trim().length() != 0){
-				JSONObject marker = new JSONObject(result);
-				addMarker(file, marker.getString("message"),
-							marker.getInt("line"), IMarker.SEVERITY_ERROR);
+			String[] s = result.split("\\\n");
+			for (int i=0; i < s.length; i++) {
+				System.out.println(s[i]);
+				if(s[i] != null && s[i].trim().length() != 0){
+					if(s[i].startsWith("{")){
+						JSONObject marker = new JSONObject(s[i]);
+						addMarker(file, marker.getString("message"),
+									marker.getInt("line"), IMarker.SEVERITY_ERROR);
+					}else if(s[i].startsWith(WARNING_PREFIX)){
+						addMarker(file, s[i].substring(WARNING_PREFIX.length(), s[i].length()), 1, IMarker.SEVERITY_WARNING);
+					}
+					
+				}
 			}
+			
 		} catch (Exception e){
 			addMarker(file, e.getMessage(), 1, IMarker.SEVERITY_ERROR);
 		}
