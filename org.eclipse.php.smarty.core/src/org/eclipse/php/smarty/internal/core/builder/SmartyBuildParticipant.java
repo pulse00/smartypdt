@@ -46,7 +46,6 @@ public class SmartyBuildParticipant implements IBuildParticipant {
 			String result = SmartyCompiler.compile(file);
 			String[] s = result.split("\\\n");
 			for (int i=0; i < s.length; i++) {
-				System.out.println(s[i]);
 				if(s[i] != null && s[i].trim().length() != 0){
 					if(s[i].startsWith("{")){
 						JSONObject marker = new JSONObject(s[i]);
