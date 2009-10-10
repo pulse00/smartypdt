@@ -23,6 +23,8 @@ public class SmartyCompiler{
 												.getEntry("Ressources/SmartyCompiler.php");
 
 	public static String compile(IFile file) throws Exception{
+		//FIXME this method is called many times when file is modified.
+		
 		// gets the first php executable 
 		String phpExe = getPhpExecutable();
 
@@ -44,6 +46,7 @@ public class SmartyCompiler{
 			p.waitFor();
 		} catch (InterruptedException e) {
 			// Stop the process from running
+			//FIXME this may cause wrong result 
 			p.destroy();
 //			throw new TimeoutException(args[1] + "did not return after "
 //					+ TIMEOUT + " milliseconds");
