@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
@@ -14,7 +16,7 @@ import org.eclipse.php.internal.debug.core.preferences.PHPexes;
 import org.eclipse.php.smarty.core.SmartyCorePlugin;
 
 public class SmartyCompiler{
-	
+	private static long TIMEOUT=2000;
 	final public static URL SMARTY_COMPILER = SmartyCorePlugin
 												.getDefault()
 												.getBundle()
@@ -32,7 +34,23 @@ public class SmartyCompiler{
 
 		// run the php code and wait for results
 		Process p = Runtime.getRuntime().exec(args);
-		p.waitFor();
+		
+		Timer timer=new Timer();
+		timer.schedule(new InterruptScheduler(Thread.currentThread()),
+				TIMEOUT);
+
+
+		try {
+			p.waitFor();
+		} catch (InterruptedException e) {
+			// Stop the process from running
+			p.destroy();
+//			throw new TimeoutException(args[1] + "did not return after "
+//					+ TIMEOUT + " milliseconds");
+		} finally {
+			// Stop the timer
+			timer.cancel();
+		}
 
 		// return the results from the process  
 		BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -64,4 +82,21 @@ public class SmartyCompiler{
 	private static void throwError() throws Exception {
 		throw new Exception("Didn't find the default PHP executable, please define a default PHP executable of type 'Zend Debugger'.");
 	}
+	
+
+	// ///////////////////////////////////////////
+	private static class InterruptScheduler extends TimerTask {
+		Thread target=null;
+
+		public InterruptScheduler(Thread target) {
+			this.target=target;
+		}
+
+		@Override
+		public void run() {
+			target.interrupt();
+		}
+
+	}
+
 }
