@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.php.internal.core.PHPToolkitUtil;
-import org.eclipse.php.internal.core.containers.ZipEntryStorage;
 import org.eclipse.php.internal.core.preferences.IPreferencesPropagatorListener;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.smarty.internal.core.documentModel.parser.SmartySourceParser;
@@ -48,9 +47,9 @@ public class SmartyStructuredEditor extends PHPStructuredEditor {
 			final IStorageEditorInput editorInput = (IStorageEditorInput) input;
 			final IStorage storage = editorInput.getStorage();
 
-			if (storage instanceof ZipEntryStorage) {
-				resource = ((ZipEntryStorage) storage).getProject();
-			}
+//			if (storage instanceof ZipEntryStorage) {
+//				resource = ((ZipEntryStorage) storage).getProject();
+//			}
 		}
 
 		if (resource instanceof IFile) {
