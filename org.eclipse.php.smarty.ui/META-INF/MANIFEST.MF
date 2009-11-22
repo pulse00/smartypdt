@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ui Plug-in
 Bundle-SymbolicName: org.eclipse.php.smarty.ui;singleton:=true
-Bundle-Version: 0.5.5
+Bundle-Version: 0.9
 Bundle-Activator: org.eclipse.php.smarty.ui.SmartyUiPlugin
 Require-Bundle: org.eclipse.php.core,
  org.eclipse.ui,
@@ -20,10 +20,11 @@ Require-Bundle: org.eclipse.php.core,
  org.eclipse.core.filesystem,
  org.eclipse.ui.ide,
  org.eclipse.php.smarty.core,
- org.eclipse.dltk.ui;bundle-version="2.0.0",
- org.eclipse.dltk.core;bundle-version="2.0.0",
+ org.eclipse.dltk.ui,
+ org.eclipse.dltk.core,
  org.eclipse.wst.xml.ui
 Eclipse-LazyStart: true
 Export-Package: 
  org.eclipse.php.smarty.ui.editor
 Import-Package: org.eclipse.ui.texteditor.templates
+Bundle-Localization: plugin
