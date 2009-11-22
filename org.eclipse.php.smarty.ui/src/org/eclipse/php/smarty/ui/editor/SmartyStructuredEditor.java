@@ -28,6 +28,8 @@ public class SmartyStructuredEditor extends PHPStructuredEditor {
 	private boolean isExternal;
 	private IPreferencesPropagatorListener phpVersionListener;
 
+	public SmartyStructuredEditor() {
+	}
 	@SuppressWarnings({ "restriction", "unchecked" })
 	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
@@ -44,8 +46,8 @@ public class SmartyStructuredEditor extends PHPStructuredEditor {
 			// from
 			// Web server while debugging, file from ZIP archive, etc...
 
-			final IStorageEditorInput editorInput = (IStorageEditorInput) input;
-			final IStorage storage = editorInput.getStorage();
+//			final IStorageEditorInput editorInput = (IStorageEditorInput) input;
+//			final IStorage storage = editorInput.getStorage();
 
 //			if (storage instanceof ZipEntryStorage) {
 //				resource = ((ZipEntryStorage) storage).getProject();

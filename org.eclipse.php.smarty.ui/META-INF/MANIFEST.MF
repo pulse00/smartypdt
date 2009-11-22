@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.php.core,
  org.eclipse.ui.ide,
  org.eclipse.php.smarty.core,
  org.eclipse.dltk.ui;bundle-version="2.0.0",
- org.eclipse.dltk.core;bundle-version="2.0.0"
+ org.eclipse.dltk.core;bundle-version="2.0.0",
+ org.eclipse.wst.xml.ui
 Eclipse-LazyStart: true
 Export-Package: 
  org.eclipse.php.smarty.ui.editor

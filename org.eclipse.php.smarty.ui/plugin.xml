@@ -6,7 +6,7 @@
 	<extension point="org.eclipse.ui.editors">
 		<editor
         class="org.eclipse.php.smarty.ui.editor.SmartyStructuredEditor"
-        contributorClass="org.eclipse.php.internal.ui.editor.PHPEditorActionBarContributor"
+        contributorClass="org.eclipse.php.internal.ui.editor.ActionContributorForPhp"
         default="true"
         icon="ico/full/obj16/smartyfile.gif"
         id="org.eclipse.smarty.editor"
