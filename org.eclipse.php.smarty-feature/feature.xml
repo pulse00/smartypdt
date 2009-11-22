@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.php.smarty_feature"
       label="Smarty Feature"
-      version="0.5.5">
+      version="0.9">
 
    <description url="http://code.google.com/p/smartypdt/">
       The PDT project provides a PHP Development Tools framework for the Eclipse platform. 
@@ -43,7 +43,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    </url>
 
    <requires>
-      <import plugin="org.eclipse.php.core"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui"/>
@@ -51,6 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <import plugin="org.eclipse.wst.html.core"/>
       <import plugin="org.eclipse.wst.xml.core"/>
       <import plugin="org.eclipse.wst.validation"/>
+      <import plugin="org.eclipse.php.core"/>
       <import plugin="org.eclipse.php"/>
       <import plugin="org.eclipse.php.ui"/>
       <import plugin="org.eclipse.jface.text"/>
@@ -59,6 +59,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <import plugin="org.eclipse.wst.sse.ui"/>
       <import plugin="org.eclipse.core.filesystem"/>
       <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.php.debug.core"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.dltk.core" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.dltk.ui" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.wst.xml.ui"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
    </requires>
 
    <plugin
