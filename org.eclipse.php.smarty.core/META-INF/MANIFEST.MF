@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Smarty Core Plug-in
 Bundle-SymbolicName: org.eclipse.php.smarty.core;singleton:=true
-Bundle-Version: 0.5.5
+Bundle-Version: 0.9
 Bundle-Activator: org.eclipse.php.smarty.core.SmartyCorePlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.php.core,
  org.eclipse.php.debug.core,
  org.eclipse.debug.core,
- org.eclipse.dltk.core;bundle-version="2.0.0"
+ org.eclipse.dltk.core
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.php.smarty.core,
  org.eclipse.php.smarty.internal.core.documentModel.parser,
