@@ -12,6 +12,7 @@ public class SmartyCorePlugin extends Plugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.php.smarty.core";
+	public static final String NATURE_ID = PLUGIN_ID + ".SmartyNature";
 
 	// The shared instance
 	private static SmartyCorePlugin plugin;
