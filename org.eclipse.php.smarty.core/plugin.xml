@@ -54,5 +54,15 @@
             class="org.eclipse.wst.sse.core.internal.filebuffers.BasicStructuredDocumentFactory"/>
    </extension>
    
-   
+   	<extension
+		id="SmartyNature"
+		name="Smarty"
+		point="org.eclipse.core.resources.natures">
+		<runtime>
+			<run
+				class="org.eclipse.php.smarty.internal.core.project.SmartyNature">
+			</run>
+		</runtime>
+		<content-type id="org.eclipse.php.smarty.core.template"/>
+	</extension>
 </plugin>
