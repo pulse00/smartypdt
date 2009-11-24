@@ -92,5 +92,14 @@
 		<keyword label="%preferenceKeywords.general" id="org.eclipse.php.smarty.ui.general" />
 		<keyword label="%preferenceKeywords.editor" id="org.eclipse.php.smarty.ui.editor" />
 	</extension>
-	
+	 
+ <extension point="org.eclipse.ui.popupMenus">
+ <objectContribution id="org.eclipse.php.smarty.ui.contextmenu" objectClass="org.eclipse.dltk.core.IScriptProject">
+ <menu id="org.eclipse.php.smarty.ui.menu" label="Smarty" path="additions">
+  <separator name="group1" /> 
+  </menu>
+  <action class="org.eclipse.php.smarty.ui.action.AddSmartyNatureAction" enablesFor="1" id="org.eclipse.php.smarty.ui.addNature" label="Add Smarty Nature" menubarPath="org.eclipse.php.smarty.ui.menu/group1" /> 
+  <action class="org.eclipse.php.smarty.ui.action.RemoveSmartyNatureAction" enablesFor="1" id="org.eclipse.php.smarty.ui.removeNature" label="Remove Smarty Nature" menubarPath="org.eclipse.php.smarty.ui.menu/group1" /> 
+  </objectContribution>
+  </extension>
 </plugin>
