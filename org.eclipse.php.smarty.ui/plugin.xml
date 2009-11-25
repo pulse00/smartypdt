@@ -97,11 +97,9 @@
  <objectContribution id="org.eclipse.php.smarty.ui.contextmenu" 
  objectClass="org.eclipse.dltk.core.IScriptProject"
  adaptable="true">
- <menu id="org.eclipse.php.smarty.ui.menu" label="Smarty" path="additions">
-  <separator name="group1" /> 
-  </menu>
-  <action class="org.eclipse.php.smarty.ui.action.AddSmartyNatureAction" enablesFor="1" id="org.eclipse.php.smarty.ui.addNature" label="Add Smarty Nature" menubarPath="org.eclipse.php.smarty.ui.menu/group1" /> 
-  <action class="org.eclipse.php.smarty.ui.action.RemoveSmartyNatureAction" enablesFor="1" id="org.eclipse.php.smarty.ui.removeNature" label="Remove Smarty Nature" menubarPath="org.eclipse.php.smarty.ui.menu/group1" /> 
+  <action class="org.eclipse.php.smarty.ui.action.RemoveSmartyNatureAction" enablesFor="+" id="org.eclipse.php.smarty.ui.RemoveSmartyNature" label="Remove Smarty Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" /> 
+  <action class="org.eclipse.php.smarty.ui.action.AddSmartyNatureAction" enablesFor="+" id="org.eclipse.php.smarty.ui.SetupSmartyNature" label="Add Smarty Support..." menubarPath="org.eclipse.ui.projectConfigure/additions" /> 
+  
   </objectContribution>
   </extension>
 </plugin>
