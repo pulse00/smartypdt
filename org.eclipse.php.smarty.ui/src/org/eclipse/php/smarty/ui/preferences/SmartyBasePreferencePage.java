@@ -36,7 +36,6 @@ public class SmartyBasePreferencePage extends PreferencePage implements IWorkben
 		return result;
 	}
 
-	@Override
 	public void init(IWorkbench workbench) {
 		// TODO Auto-generated method stub
 		
