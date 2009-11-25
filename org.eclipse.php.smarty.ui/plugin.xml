@@ -94,7 +94,9 @@
 	</extension>
 	 
  <extension point="org.eclipse.ui.popupMenus">
- <objectContribution id="org.eclipse.php.smarty.ui.contextmenu" objectClass="org.eclipse.dltk.core.IScriptProject">
+ <objectContribution id="org.eclipse.php.smarty.ui.contextmenu" 
+ objectClass="org.eclipse.dltk.core.IScriptProject"
+ adaptable="true">
  <menu id="org.eclipse.php.smarty.ui.menu" label="Smarty" path="additions">
   <separator name="group1" /> 
   </menu>
