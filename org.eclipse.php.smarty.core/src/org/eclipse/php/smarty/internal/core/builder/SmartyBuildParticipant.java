@@ -20,7 +20,6 @@ public class SmartyBuildParticipant implements IBuildParticipant {
 	
 	private static final String PHP_PROBLEM_MARKER_TYPE = PHPCorePlugin.ID +".phpproblemmarker";
 	private static final String WARNING_PREFIX = "Warning: ";
-	@Override
 	public void build(IBuildContext context) throws CoreException {
 		IFile file = context.getFile();
 		if (!isSmartyTemplate(file)) {
