@@ -23,8 +23,9 @@ Require-Bundle: org.eclipse.php.core,
  org.eclipse.dltk.ui,
  org.eclipse.dltk.core,
  org.eclipse.wst.xml.ui
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: 
  org.eclipse.php.smarty.ui.editor
 Import-Package: org.eclipse.ui.texteditor.templates
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

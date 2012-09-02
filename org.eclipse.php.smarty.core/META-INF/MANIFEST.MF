@@ -15,8 +15,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.php.debug.core,
  org.eclipse.debug.core,
  org.eclipse.dltk.core
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.php.smarty.core,
  org.eclipse.php.smarty.internal.core.documentModel.parser,
  org.eclipse.php.smarty.internal.core.documentModel.parser.partitioner,
  org.eclipse.php.smarty.internal.core.documentModel.parser.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
