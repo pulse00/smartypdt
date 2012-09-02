@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Smarty Core Plug-in
 Bundle-SymbolicName: org.eclipse.php.smarty.core;singleton:=true
-Bundle-Version: 0.9
+Bundle-Version: 0.9.0
 Bundle-Activator: org.eclipse.php.smarty.core.SmartyCorePlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,

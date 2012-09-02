@@ -1,0 +1,9 @@
+.DS_Store
+
+org.eclipse.php.smarty.core/target/
+org.eclipse.php.smarty.core/bin/
+org.eclipse.php.smarty.ui/target/
+org.eclipse.php.smarty.ui/bin/
+org.eclipse.php.smarty-feature/target
+org.eclipse.php.smarty.test/bin/
+
