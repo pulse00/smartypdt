@@ -7,7 +7,6 @@ Bundle-Activator: org.eclipse.php.smarty.ui.SmartyUiPlugin
 Require-Bundle: org.eclipse.php.core,
  org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.php,
  org.eclipse.php.ui,
  org.eclipse.wst.sse.core,
  org.eclipse.wst.xml.core,
