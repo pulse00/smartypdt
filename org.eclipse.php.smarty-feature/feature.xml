@@ -54,7 +54,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <import plugin="org.eclipse.php.debug.core"/>
       <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.eclipse.dltk.core" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.php"/>
+      <import feature="org.eclipse.php"/>
       <import plugin="org.eclipse.php.ui"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.ui.editors"/>
