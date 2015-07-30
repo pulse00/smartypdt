@@ -51,8 +51,7 @@ public class SmartyCompiler {
 	}
 
 	private static String getPhpExecutable() throws Exception {
-		PHPexeItem phpExe=PHPexes.getInstance().getDefaultItem(
-				"org.eclipse.php.debug.core.zendDebugger");
+		PHPexeItem phpExe=PHPexes.getInstance().getDefaultItem();
 
 		if (phpExe == null) {
 			throwError();

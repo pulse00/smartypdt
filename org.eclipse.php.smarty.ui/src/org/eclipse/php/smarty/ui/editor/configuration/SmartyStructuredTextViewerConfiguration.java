@@ -28,7 +28,6 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.php.internal.core.documentModel.partitioner.PHPPartitionTypes;
 import org.eclipse.php.internal.core.format.FormatPreferencesSupport;
-import org.eclipse.php.internal.core.format.PhpFormatProcessorImpl;
 import org.eclipse.php.internal.ui.PHPUiPlugin;
 import org.eclipse.php.internal.ui.autoEdit.CloseTagAutoEditStrategyPHP;
 import org.eclipse.php.internal.ui.autoEdit.MainAutoEditStrategy;
@@ -40,6 +39,7 @@ import org.eclipse.php.internal.ui.text.hover.PHPEditorTextHoverDescriptor;
 import org.eclipse.php.internal.ui.util.ElementCreationProxy;
 import org.eclipse.php.smarty.internal.core.documentModel.parser.partitioner.SmartyPartitionTypes;
 import org.eclipse.php.smarty.ui.editor.LineStyleProviderForSmarty;
+import org.eclipse.php.ui.format.PHPFormatProcessorProxy;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.html.core.text.IHTMLPartitions;
 import org.eclipse.wst.sse.ui.internal.contentassist.StructuredContentAssistant;
@@ -219,7 +219,7 @@ public class SmartyStructuredTextViewerConfiguration extends PHPStructuredTextVi
 
 		if (usedFormatter == null) {
 			usedFormatter = new MultiPassContentFormatter(getConfiguredDocumentPartitioning(sourceViewer), IHTMLPartitions.HTML_DEFAULT);
-			((MultiPassContentFormatter) usedFormatter).setMasterStrategy(new StructuredFormattingStrategy(new PhpFormatProcessorImpl()));
+			((MultiPassContentFormatter) usedFormatter).setMasterStrategy(new StructuredFormattingStrategy(new PHPFormatProcessorProxy()));
 		}
 
 		return usedFormatter;

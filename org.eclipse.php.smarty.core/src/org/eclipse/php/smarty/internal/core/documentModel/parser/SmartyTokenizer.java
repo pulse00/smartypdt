@@ -15,6 +15,8 @@ package org.eclipse.php.smarty.internal.core.documentModel.parser;
 
 import java.io.CharArrayReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +28,7 @@ import org.eclipse.php.internal.core.documentModel.parser.PHPRegionContext;
 import org.eclipse.php.internal.core.documentModel.parser.PhpLexerFactory;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PhpScriptRegion;
 import org.eclipse.php.internal.core.project.ProjectOptions;
+import org.eclipse.php.smarty.core.SmartyCorePlugin;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockMarker;
 import org.eclipse.wst.sse.core.internal.ltk.parser.BlockTokenizer;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
@@ -863,7 +866,23 @@ private AbstractPhpLexer getPhpLexer() {
 		Logger.logException(e);
 	}
 	lexer.initialize(currentParameters[6]);
-	lexer.reset(yy_reader, yy_buffer, currentParameters);
+	try {
+		Method method = lexer.getClass().getMethod("reset", new Class[] {yy_reader.getClass(), yy_buffer.getClass(), currentParameters.getClass()});
+		if (!method.isAccessible()) {
+			method.setAccessible(true);
+		}
+		method.invoke(lexer, yy_reader, yy_buffer, currentParameters);
+	} catch (NoSuchMethodException e) {
+		SmartyCorePlugin.log(e);
+	} catch (SecurityException e) {
+		SmartyCorePlugin.log(e);
+	} catch (IllegalAccessException e) {
+		SmartyCorePlugin.log(e);
+	} catch (IllegalArgumentException e) {
+		SmartyCorePlugin.log(e);
+	} catch (InvocationTargetException e) {
+		SmartyCorePlugin.log(e);
+	}
 	lexer.setPatterns(project);
 
 	lexer.setAspTags(ProjectOptions.isSupportingAspTags(project));
