@@ -21,7 +21,13 @@
      <layout>p2</layout>
      <url>http://download.eclipse.org/releases/mars</url>
    </repository>	
-  </repositories>
+ </repositories>
+ <pluginRepositories>
+		<pluginRepository>
+			<id>maven.eclipse.org</id>
+			<url>https://repo.eclipse.org/content/repositories/releases/</url>
+    </pluginRepository>
+ </pluginRepositories>
 
   <build>
     <plugins>
