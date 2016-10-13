@@ -402,7 +402,6 @@ private PhpLexer getPhpLexer(int[] parameters) {
 	}
 	lexer.initialize(parameters[6]);
 	lexer.reset(yy_reader, yy_buffer, parameters);
-	lexer.setPatterns(project);
 
 	lexer.setAspTags(UseAspTagsHandler.useAspTagsAsPhp(project));
 	return lexer;

@@ -883,8 +883,6 @@ private AbstractPhpLexer getPhpLexer() {
 	} catch (InvocationTargetException e) {
 		SmartyCorePlugin.log(e);
 	}
-	lexer.setPatterns(project);
-
 	lexer.setAspTags(ProjectOptions.isSupportingAspTags(project));
 	return lexer;
 }
