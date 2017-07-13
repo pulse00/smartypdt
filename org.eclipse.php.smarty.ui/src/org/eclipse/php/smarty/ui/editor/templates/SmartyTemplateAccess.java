@@ -2,7 +2,6 @@ package org.eclipse.php.smarty.ui.editor.templates;
 
 import org.eclipse.dltk.ui.templates.ScriptTemplateAccess;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.php.internal.ui.editor.templates.PhpTemplateContextType;
 import org.eclipse.php.smarty.ui.SmartyUiPlugin;
 
 public class SmartyTemplateAccess extends ScriptTemplateAccess {

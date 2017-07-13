@@ -9,7 +9,7 @@ import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.jface.text.templates.TemplateContext;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
-import org.eclipse.php.internal.ui.editor.templates.PhpTemplateCompletionProcessor;
+import org.eclipse.php.internal.ui.editor.templates.PHPTemplateCompletionProcessor;
 import org.eclipse.php.internal.ui.util.PHPPluginImages;
 import org.eclipse.php.smarty.ui.SmartyUiPlugin;
 import org.eclipse.php.smarty.ui.editor.templates.SmartyTemplateAccess;
@@ -18,7 +18,7 @@ import org.eclipse.swt.graphics.Image;
 
 @SuppressWarnings("restriction")
 public class SmartyTemplateCompletionProcessor extends
-		PhpTemplateCompletionProcessor {
+		PHPTemplateCompletionProcessor {
 
 	public SmartyTemplateCompletionProcessor(
 			ScriptContentAssistInvocationContext context, boolean explicit) {

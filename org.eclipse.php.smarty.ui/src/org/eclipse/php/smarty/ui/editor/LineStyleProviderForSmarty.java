@@ -12,7 +12,7 @@ package org.eclipse.php.smarty.ui.editor;
 
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PHPRegionTypes;
-import org.eclipse.php.internal.ui.editor.highlighter.LineStyleProviderForPhp;
+import org.eclipse.php.internal.ui.editor.highlighter.LineStyleProviderForPHP;
 import org.eclipse.php.smarty.internal.core.documentModel.parser.SmartyRegionContext;
 import org.eclipse.php.smarty.ui.preferences.PreferenceConstants;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
@@ -21,7 +21,7 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
  * Colors the Smarty tokens 
  * @author Roy, 2007
  */
-public class LineStyleProviderForSmarty extends LineStyleProviderForPhp {
+public class LineStyleProviderForSmarty extends LineStyleProviderForPHP {
 
 	static {
 		fColorTypes.put(SmartyRegionContext.SMARTY_OPEN, PreferenceConstants.EDITOR_BOUNDARYMARKER_COLOR);

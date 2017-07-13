@@ -16,7 +16,7 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.php.internal.core.PHPToolkitUtil;
+import org.eclipse.php.core.PHPToolkitUtil;
 import org.eclipse.php.internal.core.preferences.IPreferencesPropagatorListener;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.smarty.internal.core.documentModel.parser.SmartySourceParser;
@@ -55,7 +55,7 @@ public class SmartyStructuredEditor extends PHPStructuredEditor {
 		}
 
 		if (resource instanceof IFile) {
-			if (PHPToolkitUtil.isPhpFile((IFile) resource) || "tpl".equals(resource.getFullPath().getFileExtension())) {
+			if (PHPToolkitUtil.isPHPFile((IFile) resource) || "tpl".equals(resource.getFullPath().getFileExtension())) {
 
 				SmartySourceParser.editFile.set(resource);
 
