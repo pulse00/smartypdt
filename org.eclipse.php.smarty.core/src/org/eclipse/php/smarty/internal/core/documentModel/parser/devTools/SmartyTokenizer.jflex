@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.php.core.PHPVersion;
 import org.eclipse.php.internal.core.PHPCoreConstants;
 import org.eclipse.php.internal.core.documentModel.parser.*;
 import org.eclipse.php.internal.core.documentModel.parser.regions.PhpScriptRegion;
@@ -378,7 +379,7 @@ private final String doScanEndPhp(boolean isAsp, String searchContext, int exitS
 	currentParameters[6] = ST_PHP_IN_SCRIPTING;
 	
 	final PhpLexer phpLexer = getPhpLexer(currentParameters); 
-	bufferedTextRegion = new PhpScriptRegion(searchContext, yychar, project, phpLexer);
+	bufferedTextRegion = new PhpScriptRegion(searchContext, yychar, phpVersion, false, false, phpLexer);
 
 	// restore the locations / states
 	reset(yy_reader, phpLexer.getYy_buffer(), phpLexer.getParamenters());
@@ -596,10 +597,12 @@ private final String doBlockTagScan() throws IOException {
 }
 
 private IProject project;
+private PHPVersion phpVersion;
 private int ST_PHP_IN_SCRIPTING = -1; 
 
 public void setProject(IProject project) {
 	this.project = project;
+	this.phpVersion = ProjectOptions.getPHPVersion(project);
 	ST_PHP_IN_SCRIPTING = PHPLexerStates.toSpecificVersionState(project, PHPLexerStates.ST_PHP_IN_SCRIPTING);
 }
 

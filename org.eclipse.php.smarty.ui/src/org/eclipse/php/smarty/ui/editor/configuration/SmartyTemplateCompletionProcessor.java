@@ -48,7 +48,7 @@ public class SmartyTemplateCompletionProcessor extends
 	protected ICompletionProposal createProposal(Template template,
 			TemplateContext context, IRegion region, int relevance) {
 		// TODO Auto-generated method stub
-		return new SmartyTemplateProposal(template, context, region, getImage(template), relevance);
+		return new SmartyTemplateProposal(template, context, region, () -> getImage(template), relevance);
 	}
 	
 	protected Image getImage(Template template) {
